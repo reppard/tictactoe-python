@@ -42,9 +42,27 @@ turn = 1
 #Player and Move logic
 
 def winner():
-    if grid[1] == grid[2] and grid[2] == grid[3]:
-        print "WINNER!"
+    # horizontal
+    if grid[1] == grid[2] and grid[2] == grid[3] and not grid[1] == None:
         return True
+    if grid[4] == grid[5] and grid[5] == grid[6] and not grid[4] == None:
+        return True
+    if grid[7] == grid[8] and grid[8] == grid[9] and not grid[7] == None:
+        return True
+    #vertical
+    if grid[1] == grid[4] and grid[4] == grid[7] and not grid[1] == None:
+        return True
+    if grid[2] == grid[5] and grid[5] == grid[8] and not grid[2] == None:
+        return True
+    if grid[3] == grid[6] and grid[6] == grid[9] and not grid[3] == None:
+        return True
+    #diags
+    if grid[1] == grid[5] and grid[5] == grid[9] and not grid[1] == None:
+        return True
+    if grid[3] == grid[5] and grid[5] == grid[7] and not grid[3] == None:
+        return True
+
+
 
 def whos_turn():
     if turn == 1:
@@ -94,7 +112,7 @@ while True: #Main loop
                         new_game()
         if event.type == KEYDOWN:
             if event.key == K_c:
-                setup_board(new_board())
+                new_game()
     font = pygame.font.Font(None, 24)
     info = font.render("X-Score: " + str(player_one_score) + "    O-Score: " + str(player_two_score),1,box_border)
     go  = font.render(whos_turn(),1,box_border)

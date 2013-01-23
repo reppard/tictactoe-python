@@ -3,8 +3,9 @@ import pygame, sys
 from pygame.locals import *
 
 pygame.init()
+box_color = (255,255,255)
+box_border = (80,153,105)
 screen = pygame.display.set_mode((300,500),0,32)
-
 blank_piece = pygame.image.load("blank.jpg").convert()
 x_piece = pygame.image.load("x.jpg").convert()
 o_piece = pygame.image.load("o.jpg").convert()
@@ -12,9 +13,9 @@ o_piece = pygame.image.load("o.jpg").convert()
 # Game Setup
 
 def get_empty_grid():
-    return {1 : None, 2 : None, 3 : None,
-            4 : None, 5 : None, 6 : None,
-            7 : None, 8 : None, 9 : None}
+    return { 1 : None, 2 : None, 3 : None,
+             4 : None, 5 : None, 6 : None,
+             7 : None, 8 : None, 9 : None }
 
 def new_board():
     return { 1 : [blank_piece,(0,0)], 2 : [blank_piece,(100,0)], 3 : [blank_piece,(200,0)],
@@ -25,16 +26,31 @@ def setup_board(pieces):
     for key,value in pieces.iteritems():
         screen.blit(value[0],value[1])
 
-def winner():
-    if grid[1] == grid[2] and grid[3]:
-        print "WINNER!"
+def new_game():
+    global grid, pieces
+    grid = get_empty_grid()
+    pieces = new_board()
+    setup_board(pieces)
 
 grid = get_empty_grid()
 pieces = new_board()
 setup_board(pieces)
+player_one_score = 0
+player_two_score = 0
 turn = 1
 
 #Player and Move logic
+
+def winner():
+    if grid[1] == grid[2] and grid[2] == grid[3]:
+        print "WINNER!"
+        return True
+
+def whos_turn():
+    if turn == 1:
+        return "Player X's turn"
+    else:
+        return "Player O's turn"
 
 def player_move(pos):
     for key,value in pieces.iteritems():
@@ -58,18 +74,34 @@ while True: #Main loop
                     grid[play] = "X"
                     pieces[play][0] = x_piece
                     screen.blit(pieces[play][0],pieces[play][1])
-                    turn = 2
-                    print grid
+                    if not (winner() == True):
+                        turn = 2
+                        print grid
+                    else:
+                        player_one_score += 1
+                        new_game()
             elif turn == 2:
                 play = player_move(pygame.mouse.get_pos())
                 if not (play == False):
                     grid[play] = "O"
                     pieces[play][0] = o_piece
                     screen.blit(pieces[play][0],pieces[play][1])
-                    turn = 1
-                    print grid
+                    if not (winner() == True):
+                        turn = 1
+                        print grid
+                    else:
+                        player_two_score += 1
+                        new_game()
         if event.type == KEYDOWN:
             if event.key == K_c:
                 setup_board(new_board())
+    font = pygame.font.Font(None, 24)
+    info = font.render("X-Score: " + str(player_one_score) + "    O-Score: " + str(player_two_score),1,box_border)
+    go  = font.render(whos_turn(),1,box_border)
+    pygame.draw.rect(screen, box_border, (0, 300, 300, 200))
+    pygame.draw.rect(screen, box_border, (0, 300, 300, 200))
+    pygame.draw.rect(screen, box_color, (25, 325, 250, 150))
+    screen.blit(info, (55,350))
+    screen.blit(go, (145,450))
     pygame.display.update()
 

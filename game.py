@@ -46,15 +46,6 @@ def player_move(pos):
                     else:
                         return False
 
-
-def comp_move(pieces):
-    free_spaces = []
-    for key,value in pieces.iteritems():
-        if value[0] == blank_piece:
-            free_spaces.append(key)
-        if len(free_spaces) > 0:
-            return random.choice(free_spaces)
-
 while True: #Main loop
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -77,9 +68,6 @@ while True: #Main loop
                     screen.blit(pieces[play][0],pieces[play][1])
                     turn = 1
                     print grid
-          # comp = comp_move(pieces)
-          # pieces[comp][0] = o_piece
-          # screen.blit(pieces[comp][0],pieces[comp][1])
         if event.type == KEYDOWN:
             if event.key == K_c:
                 setup_board(new_board())

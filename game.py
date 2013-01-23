@@ -43,23 +43,23 @@ turn = 1
 
 def winner():
     # horizontal
-    if grid[1] == grid[2] and grid[2] == grid[3] and not grid[1] == None:
+    if grid[1] == grid[2] == grid[3] and grid[1] is not None:
         return True
-    if grid[4] == grid[5] and grid[5] == grid[6] and not grid[4] == None:
+    if grid[4] == grid[5] == grid[6] and grid[4] is not None:
         return True
-    if grid[7] == grid[8] and grid[8] == grid[9] and not grid[7] == None:
+    if grid[7] == grid[8] == grid[9] and grid[7] is not None:
         return True
     #vertical
-    if grid[1] == grid[4] and grid[4] == grid[7] and not grid[1] == None:
+    if grid[1] == grid[4] == grid[7] and grid[1] is not None:
         return True
-    if grid[2] == grid[5] and grid[5] == grid[8] and not grid[2] == None:
+    if grid[2] == grid[5] == grid[8] and grid[2] is not None:
         return True
-    if grid[3] == grid[6] and grid[6] == grid[9] and not grid[3] == None:
+    if grid[3] == grid[6] == grid[9] and grid[3] is not None:
         return True
     #diags
-    if grid[1] == grid[5] and grid[5] == grid[9] and not grid[1] == None:
+    if grid[1] == grid[5] == grid[9] and grid[1] is not None:
         return True
-    if grid[3] == grid[5] and grid[5] == grid[7] and not grid[3] == None:
+    if grid[3] == grid[5] == grid[7] and grid[3] is not None:
         return True
 
 

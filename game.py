@@ -9,7 +9,7 @@ screen = pygame.display.set_mode((300,500),0,32)
 blank_piece = pygame.image.load("blank.jpg").convert()
 x_piece = pygame.image.load("x.jpg").convert()
 o_piece = pygame.image.load("o.jpg").convert()
-
+triplets = [[1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9],[1,5,9],[3,5,7]]
 # Game Setup
 
 def get_empty_grid():
@@ -42,27 +42,9 @@ turn = 1
 #Player and Move logic
 
 def winner():
-    # horizontal
-    if grid[1] == grid[2] == grid[3] and grid[1] is not None:
-        return True
-    if grid[4] == grid[5] == grid[6] and grid[4] is not None:
-        return True
-    if grid[7] == grid[8] == grid[9] and grid[7] is not None:
-        return True
-    #vertical
-    if grid[1] == grid[4] == grid[7] and grid[1] is not None:
-        return True
-    if grid[2] == grid[5] == grid[8] and grid[2] is not None:
-        return True
-    if grid[3] == grid[6] == grid[9] and grid[3] is not None:
-        return True
-    #diags
-    if grid[1] == grid[5] == grid[9] and grid[1] is not None:
-        return True
-    if grid[3] == grid[5] == grid[7] and grid[3] is not None:
-        return True
-
-
+    for a, b, c in triplets:
+        if grid[a] == grid[b] == grid[c] and grid[a] is not None:
+            return True
 
 def whos_turn():
     if turn == 1:

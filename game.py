@@ -37,10 +37,6 @@ def new_board():
              7 : [blank_piece,(0,200)], 8 : [blank_piece,(100,200)],
              9 : [blank_piece,(200,200)] }
 
-triplets = [ [1,2,3],[4,5,6],[7,8,9],
-             [1,4,7],[2,5,8],[3,6,9],
-             [1,5,9],[3,5,7] ]
-
 grid = get_empty_grid()
 pieces = new_board()
 setup_board(pieces)
@@ -63,6 +59,9 @@ def animation():
             pygame.display.update()
 
 def winner():
+    triplets = [ [1,2,3],[4,5,6],[7,8,9],
+                 [1,4,7],[2,5,8],[3,6,9],
+                 [1,5,9],[3,5,7] ]
     for a, b, c in triplets:
         if grid[a] == grid[b] == grid[c] and grid[a] is not None:
             return True

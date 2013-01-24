@@ -3,7 +3,7 @@ import pygame, sys
 from pygame.locals import *
 
 pygame.init()
-
+pygame.display.set_caption('TicTacToe')
 box_color = (255,255,255)
 box_border = (80,153,105)
 colors = [(0,0,0),(122,123,123),(34,234,233),(123,221,212),(233,212,123)]
@@ -20,6 +20,7 @@ def setup_board(pieces):
         screen.blit(value[0],value[1])
 
 def new_game():
+    animation()
     global grid, pieces
     grid = get_empty_grid()
     pieces = new_board()
@@ -47,7 +48,7 @@ def animation():
         color = random_color()
         while not (y > 650):
             pygame.draw.rect(screen, color,(x,y,100,100))
-            y+=25
+            y+=45
             screen.blit(v[0],(x,y))
             pygame.display.update()
 
@@ -58,6 +59,14 @@ def winner():
     for a, b, c in triplets:
         if grid[a] == grid[b] == grid[c] and grid[a] is not None:
             return True
+
+def cat_wins():
+    blanks = 0
+    for k,v in grid.iteritems():
+        if v is None:
+            blanks += 1
+    if blanks == 0:
+        return True
 
 def whos_turn():
     if turn == 1:
@@ -96,10 +105,11 @@ def number_of_players():
 
 grid = get_empty_grid()
 pieces = new_board()
-nop = number_of_players()
+#nop = number_of_players()
 setup_board(pieces)
 player_one_score = 0
 player_two_score = 0
+cat_score = 0
 turn = 1
 
 while True: #Main loop
@@ -114,11 +124,13 @@ while True: #Main loop
                     grid[play] = "X"
                     pieces[play][0] = x_piece
                     screen.blit(pieces[play][0],pieces[play][1])
+                    if cat_wins() is True:
+                        cat_score += 1
+                        new_game()
                     if winner() is not True:
                         turn = 2
                     else:
                         player_one_score += 1
-                        animation()
                         new_game()
             elif turn == 2:
                 play = player_move(pygame.mouse.get_pos())
@@ -126,22 +138,26 @@ while True: #Main loop
                     grid[play] = "O"
                     pieces[play][0] = o_piece
                     screen.blit(pieces[play][0],pieces[play][1])
+                    if cat_wins() is True:
+                        cat_score += 1
+                        new_game()
                     if winner() is not True:
                         turn = 1
                     else:
                         player_two_score += 1
-                        animation()
                         new_game()
         if event.type == KEYDOWN:
             if event.key == K_c:
                 new_game()
-    info = font.render("X-Score: " + str(player_one_score) + "    O-Score: " + str(player_two_score),1,box_border)
+    players_scores = font.render("X's Score: " + str(player_one_score) + "    O's Score: " + str(player_two_score),1,box_border)
+    cats_score = font.render("Cat's Score: " + str(cat_score),1,box_border)
     go  = font.render(whos_turn(),1,box_border)
 
     pygame.draw.rect(screen, box_border, (0, 300, 300, 200))
     pygame.draw.rect(screen, box_border, (0, 300, 300, 200))
     pygame.draw.rect(screen, box_color, (25, 325, 250, 150))
-    screen.blit(info, (55,350))
-    screen.blit(go, (145,450))
+    screen.blit(players_scores, (50,350))
+    screen.blit(cats_score, (95,400))
+    screen.blit(go, (90,450))
     pygame.display.update()
 

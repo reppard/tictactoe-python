@@ -6,6 +6,7 @@ pygame.init()
 
 box_color = (255,255,255)
 box_border = (80,153,105)
+colors = [(0,0,0),(122,123,123),(34,234,233),(123,221,212),(233,212,123)]
 screen = pygame.display.set_mode((300,500),0,32)
 
 blank_piece = pygame.image.load("blank.jpg").convert()
@@ -48,16 +49,18 @@ player_two_score = 0
 turn = 1
 
 #Player and Move logic
+def random_color():
+    return (random.randrange(0,255),random.randrange(0,255),random.randrange(0,255))
+
 def animation():
-    for k,v in pieces.iteritems():
+    for k,v in sorted(pieces.iteritems(),reverse=True):
         x,y = v[1][0],v[1][1]
-        blanks = new_board()
-        setup_board(blanks)
+        color = random_color()
         while not (y > 650):
+            pygame.draw.rect(screen, color,(x,y,100,100))
+            y+=25
             screen.blit(v[0],(x,y))
-            y+=55
             pygame.display.update()
-            print y
 
 def winner():
     for a, b, c in triplets:
@@ -116,7 +119,6 @@ while True: #Main loop
         if event.type == KEYDOWN:
             if event.key == K_c:
                 new_game()
-
     font = pygame.font.Font(None, 24)
     info = font.render("X-Score: " + str(player_one_score) + "    O-Score: " + str(player_two_score),1,box_border)
     go  = font.render(whos_turn(),1,box_border)

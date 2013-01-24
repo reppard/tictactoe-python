@@ -8,7 +8,7 @@ box_color = (255,255,255)
 box_border = (80,153,105)
 colors = [(0,0,0),(122,123,123),(34,234,233),(123,221,212),(233,212,123)]
 screen = pygame.display.set_mode((300,500),0,32)
-
+font = pygame.font.Font(None, 24)
 blank_piece = pygame.image.load("blank.jpg").convert()
 x_piece = pygame.image.load("x.jpg").convert()
 o_piece = pygame.image.load("o.jpg").convert()
@@ -36,13 +36,6 @@ def new_board():
              5 : [blank_piece,(100,100)], 6 : [blank_piece,(200,100)],
              7 : [blank_piece,(0,200)], 8 : [blank_piece,(100,200)],
              9 : [blank_piece,(200,200)] }
-
-grid = get_empty_grid()
-pieces = new_board()
-setup_board(pieces)
-player_one_score = 0
-player_two_score = 0
-turn = 1
 
 #Player and Move logic
 def random_color():
@@ -85,6 +78,30 @@ def player_move(pos):
     else:
         return False
 
+def number_of_players():
+    screen.fill(random_color())
+    nop = font.render("How Many Players?",1,random_color())
+    screen.blit(nop,(4,5))
+    pygame.display.update()
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYDOWN:
+                if event.key == K_1:
+                    return 1
+                elif event.key == K_2:
+                    return 2
+
+grid = get_empty_grid()
+pieces = new_board()
+nop = number_of_players()
+setup_board(pieces)
+player_one_score = 0
+player_two_score = 0
+turn = 1
+
 while True: #Main loop
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -118,7 +135,6 @@ while True: #Main loop
         if event.type == KEYDOWN:
             if event.key == K_c:
                 new_game()
-    font = pygame.font.Font(None, 24)
     info = font.render("X-Score: " + str(player_one_score) + "    O-Score: " + str(player_two_score),1,box_border)
     go  = font.render(whos_turn(),1,box_border)
 

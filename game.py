@@ -48,6 +48,16 @@ player_two_score = 0
 turn = 1
 
 #Player and Move logic
+def animation():
+    for k,v in pieces.iteritems():
+        x,y = v[1][0],v[1][1]
+        blanks = new_board()
+        setup_board(blanks)
+        while not (y > 650):
+            screen.blit(v[0],(x,y))
+            y+=55
+            pygame.display.update()
+            print y
 
 def winner():
     for a, b, c in triplets:
@@ -85,10 +95,11 @@ while True: #Main loop
                     grid[play] = "X"
                     pieces[play][0] = x_piece
                     screen.blit(pieces[play][0],pieces[play][1])
-                    if not (winner() == True):
+                    if winner() is not True:
                         turn = 2
                     else:
                         player_one_score += 1
+                        animation()
                         new_game()
             elif turn == 2:
                 play = player_move(pygame.mouse.get_pos())
@@ -96,10 +107,11 @@ while True: #Main loop
                     grid[play] = "O"
                     pieces[play][0] = o_piece
                     screen.blit(pieces[play][0],pieces[play][1])
-                    if not (winner() == True):
+                    if winner() is not True:
                         turn = 1
                     else:
                         player_two_score += 1
+                        animation()
                         new_game()
         if event.type == KEYDOWN:
             if event.key == K_c:
